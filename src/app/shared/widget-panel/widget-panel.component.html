@@ -1,0 +1,7 @@
+<gridster [options]="options">
+  <gridster-item [item]="item" *ngFor="let item of dashboard">
+    <div class="widget-content">
+      <app-gauge-widget></app-gauge-widget>
+    </div>
+  </gridster-item>
+</gridster>

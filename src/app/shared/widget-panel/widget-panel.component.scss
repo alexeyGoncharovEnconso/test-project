@@ -1,0 +1,39 @@
+:host {
+  display: block;
+  height: 300px;
+
+  .widget-content {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+
+   
+  }
+}
+
+gridster ::ng-deep .gridster-row {
+  border: none;
+}
+
+gridster ::ng-deep .gridster-column {
+  border: 1px solid #979797;
+
+  &.column-without-border {
+    border: none;
+  }
+}
+
+gridster ::ng-deep {
+  background: inherit;
+}
+
+gridster-item ::ng-deep {
+  background: inherit;
+  border-radius: 10px;
+  overflow: initial;
+
+  
+}
+::ng-deep gridster-preview.gridster-preview {
+  border-radius: 10px;
+}

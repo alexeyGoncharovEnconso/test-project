@@ -1,6 +1,13 @@
 <div class="header drag-handler">
   <span>Auslastung</span>
-  <div class="round-button" (mousedown)="onMenuClick($event)" (touchstart)="onMenuClick($event)"></div>
+  <mat-icon
+    matTooltip="Change gauge view"
+    [matTooltipPosition]="'above'"
+    class="menu"
+    (mousedown)="onMenuClick($event)"
+    (touchstart)="onMenuClick($event)"
+    >more_vert</mat-icon
+  >
 </div>
 <div class="content">
   <app-round-gauge [type]="gaugeType"></app-round-gauge>

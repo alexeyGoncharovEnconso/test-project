@@ -23,12 +23,13 @@ export class WidgetPanelComponent implements OnInit {
 
   constructor(private renderer: Renderer2) {}
 
+   // TODO: подумать
   ngOnInit() {
     this.options = {
       gridType: GridType.Fixed,
       setGridSize: true,
-      fixedColWidth: 200,
-      fixedRowHeight: 280,
+      fixedColWidth: 236,
+      fixedRowHeight: 310,
       minCols: 4,
       maxCols: 4,
       margin: 10,
@@ -51,7 +52,7 @@ export class WidgetPanelComponent implements OnInit {
       itemChangeCallback: this.itemChange.bind(this), // remove border from init cell
     };
 
-    this.dashboard = [{ x: 0, y: 0, rows: 1, cols: 1 }];
+    this.dashboard = [{ x: 5, y: 0, rows: 1, cols: 1 }];
   }
 
   /**

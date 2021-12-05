@@ -1,0 +1,13 @@
+<div class="gauge-container" [ngClass]="type">
+  <div class="gauge-shadow" [ngClass]="type"></div>
+  <round-slider
+    value="0"
+    [attr.arclength]="arcLength"
+    [attr.startangle]="startAngle"
+    [attr.max]="maxValue"
+    (value-changing)="valueChanged($event)"
+  ></round-slider>
+  <div class="current-value" [ngClass]="type">
+    <span class="number">{{currentPressure$ | async}}</span> bar
+  </div>
+</div>

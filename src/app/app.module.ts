@@ -4,19 +4,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { SharedModule } from './shared/shared.module';
+import { HomeModule } from './home/home.module';
+import { WidgetPanelModule } from './shared/ui/widgets/widget-panel/widget-panel.module';
 
 @NgModule({
-  declarations: [	
-    AppComponent,
-      HomeComponent
-   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    SharedModule
-  ],
+  declarations: [AppComponent],
+  imports: [BrowserModule, AppRoutingModule, HomeModule],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { GaugeWidgetComponent } from './gauge-widget.component';
+import { WidgetItemWithHeaderComponent } from './widget-item-with-header.component';
 
 describe('GaugeWidgetComponent', () => {
-  let component: GaugeWidgetComponent;
-  let fixture: ComponentFixture<GaugeWidgetComponent>;
+  let component: WidgetItemWithHeaderComponent;
+  let fixture: ComponentFixture<WidgetItemWithHeaderComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GaugeWidgetComponent ]
+      declarations: [ WidgetItemWithHeaderComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GaugeWidgetComponent);
+    fixture = TestBed.createComponent(WidgetItemWithHeaderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

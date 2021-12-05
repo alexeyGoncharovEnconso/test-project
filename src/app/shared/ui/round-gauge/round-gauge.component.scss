@@ -1,0 +1,53 @@
+:host {
+  --round-slider-path-width: 1px;
+  --round-slider-bar-color: #35b5ee;
+  --round-slider-path-color: #35b5ee;
+  --round-slider-handle-color: #35b5ee;
+
+  .gauge-container {
+    position: relative;
+    display: flex;
+
+    &.arc {
+      margin-top: 40px;
+    }
+
+    .gauge-shadow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #e9eff1;
+      width: calc(100% - 18px);
+      height: calc(100% - 18px);
+    }
+
+    .arc {
+      border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+    }
+
+    .circle {
+      border-radius: 50%;
+    }
+
+    round-slider {
+      z-index: 1;
+    }
+
+    .current-value {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #28627c;
+
+      &.arc {
+        top: 65%;
+      }
+
+      .number {
+        font-size: 32px;
+      }
+    }
+  }
+}

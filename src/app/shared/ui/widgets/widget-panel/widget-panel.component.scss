@@ -13,6 +13,8 @@
   
   gridster ::ng-deep .gridster-column {
     border: 1px solid #979797;
+    background-image: url("/assets/img/gridster-background.png");
+    filter: blur(2rem);
   
     &.column-without-border {
       border: none;
@@ -21,6 +23,7 @@
   
   gridster ::ng-deep {
     background: inherit;
+    padding: 0!important;
   }
   
   gridster-item ::ng-deep {

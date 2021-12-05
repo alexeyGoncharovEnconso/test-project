@@ -3,6 +3,22 @@
   height: 100%;
   padding: 32px;
 
+  .title {
+    font-size: 40px;
+    line-height: 45px;
+    margin-bottom: 32px;
+    font-family: 'Georgia', 'serif';
+  }
+
+  .subtitle {
+    font-size: 20px;
+    margin-bottom: 24px;
+  }
+
+  .title, .subtitle {
+    color: #c7c7c7;
+  }
+
   .slider-title {
       margin-top: 32px;
   }

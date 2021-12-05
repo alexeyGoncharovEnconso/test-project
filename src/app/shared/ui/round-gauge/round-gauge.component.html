@@ -1,7 +1,7 @@
 <div class="gauge-container" [ngClass]="type">
   <div class="gauge-shadow" [ngClass]="type"></div>
   <round-slider
-    value="0"
+    [attr.value]="currentPressure$ | async"
     [attr.arclength]="arcLength"
     [attr.startangle]="startAngle"
     [attr.max]="maxValue"

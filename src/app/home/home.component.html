@@ -3,3 +3,6 @@
 </p>
 
 <app-widget-panel></app-widget-panel>
+
+<div class="slider-title">Set pressure</div>
+<mat-slider [value]="currentValue$ | async" (input)="setPressure($event)" [max]="20"></mat-slider>

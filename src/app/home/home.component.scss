@@ -1,4 +1,31 @@
 :host {
-    background-color: #e8e9ea;
-    height: 100%;
+  background-color: #e8e9ea;
+  height: 100%;
+  padding: 32px;
+
+  .slider-title {
+      margin-top: 32px;
+  }
+
+  mat-slider {
+    width: 236px;
+  }
+
+  & ::ng-deep {
+    .mat-accent .mat-slider-track-fill {
+      background-color: #35b5ee !important;
+    }
+
+    .mat-slider-thumb-label {
+      background-color: #35b5ee !important;
+    }
+
+    .mat-slider-thumb {
+      background-color: #35b5ee !important;
+    }
+
+    .mat-slider-track-background {
+        background-color: #35b5ee !important;
+    }
+  }
 }

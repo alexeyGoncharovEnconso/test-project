@@ -1,4 +1,10 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  Renderer2,
+} from '@angular/core';
 import {
   CompactType,
   DisplayGrid,
@@ -7,34 +13,37 @@ import {
   GridsterItemComponentInterface,
   GridType,
 } from 'angular-gridster2';
+import { PressureService } from 'src/app/shared/services/pressure.service';
 
 const BORDER_REMOVE_CLASS = 'column-without-border';
+const COLUMN_WIDTH = 236;
+const COLUMN_MARGIN = 10;
 
 @Component({
   selector: 'app-widget-panel',
   templateUrl: './widget-panel.component.html',
   styleUrls: ['./widget-panel.component.scss'],
 })
-export class WidgetPanelComponent implements OnInit {
+export class WidgetPanelComponent implements OnInit, OnDestroy {
   options: GridsterConfig = {};
-  dashboard: Array<GridsterItem> = [];
+  widgetItem: GridsterItem;
 
   currentDraggedItemXCoordinate?: number;
 
-  constructor(private renderer: Renderer2) {}
+  resizeObserver?: ResizeObserver;
 
-   // TODO: подумать
+  constructor(private renderer: Renderer2, private elRef: ElementRef) {}
+
   ngOnInit() {
     this.options = {
       gridType: GridType.Fixed,
       setGridSize: true,
-      fixedColWidth: 236,
+      fixedColWidth: COLUMN_WIDTH,
       fixedRowHeight: 310,
-      minCols: 4,
-      maxCols: 4,
-      margin: 10,
+      margin: COLUMN_MARGIN,
       minRows: 1,
       maxRows: 1,
+      mobileBreakpoint: 0,
       displayGrid: DisplayGrid.Always,
       disableScrollHorizontal: true,
       disableScrollVertical: true,
@@ -52,13 +61,21 @@ export class WidgetPanelComponent implements OnInit {
       itemChangeCallback: this.itemChange.bind(this), // remove border from init cell
     };
 
-    this.dashboard = [{ x: 5, y: 0, rows: 1, cols: 1 }];
+    this.widgetItem = { x: 0, y: 0, rows: 1, cols: 1 };
+
+    this.resizeObserver = new ResizeObserver((entries) => this.updateGridster(entries));
+
+    this.resizeObserver.observe(this.elRef.nativeElement);
+  }
+
+  ngOnDestroy(): void {
+    this.resizeObserver.disconnect();
   }
 
   /**
    * Add and remove cell borders
-   * @param item 
-   * @param itemComponent 
+   * @param item
+   * @param itemComponent
    */
   itemChange(
     item: GridsterItem,
@@ -70,7 +87,10 @@ export class WidgetPanelComponent implements OnInit {
       this.renderer.addClass(currentColumn, BORDER_REMOVE_CLASS);
     }
     if (this.currentDraggedItemXCoordinate !== undefined) {
-      const prevColumn = itemComponent.gridster.el.querySelectorAll('.gridster-column')?.[this.currentDraggedItemXCoordinate];
+      const prevColumn =
+        itemComponent.gridster.el.querySelectorAll('.gridster-column')?.[
+          this.currentDraggedItemXCoordinate
+        ];
       if (prevColumn) {
         this.renderer.removeClass(prevColumn, BORDER_REMOVE_CLASS);
       }
@@ -79,13 +99,53 @@ export class WidgetPanelComponent implements OnInit {
 
   /**
    * Set coordinate of previous position of draggable element
-   * @param item 
-   * @param itemComponent 
+   * @param item
+   * @param itemComponent
    */
   itemDragStart(
     item: GridsterItem,
     itemComponent: GridsterItemComponentInterface
   ) {
     this.currentDraggedItemXCoordinate = item.x;
+  }
+
+  /**
+   * Moves the widget to an accessible column
+   * @param columnsCount
+   */
+  moveWidgetItem(columnsCount: number) {
+    if (columnsCount <= this.widgetItem.x && columnsCount !== 0) {
+      this.widgetItem.x = columnsCount - 1;
+    }
+  }
+
+  /**
+   * set number of columns
+   * @param columnsCount 
+   */
+  changeColumnsCount(columnsCount) {
+    if (this.options) {
+      this.options.minCols = columnsCount;
+      this.options.maxCols = columnsCount;
+      this.options.api.optionsChanged();
+    }
+  }
+
+  /**
+   * updates gridster when the container is resized
+   * @param entries entries of resize observable
+   */
+  updateGridster(entries: Array<ResizeObserverEntry>) {
+    const entry = entries[0];
+      const containerWidth = entry.contentBoxSize
+        ? entry.contentBoxSize[0].inlineSize
+        : entry.contentRect.width;
+
+      const columnWidth = COLUMN_WIDTH + COLUMN_MARGIN;
+
+      const columnsCount = Math.trunc(containerWidth / columnWidth);
+
+      this.moveWidgetItem(columnsCount);
+      this.changeColumnsCount(columnsCount)
   }
 }

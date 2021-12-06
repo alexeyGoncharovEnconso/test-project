@@ -4,6 +4,7 @@ import {
   OnDestroy,
   OnInit,
   Renderer2,
+  ViewChild,
 } from '@angular/core';
 import {
   CompactType,
@@ -13,7 +14,6 @@ import {
   GridsterItemComponentInterface,
   GridType,
 } from 'angular-gridster2';
-import { PressureService } from 'src/app/shared/services/pressure.service';
 
 const BORDER_REMOVE_CLASS = 'column-without-border';
 const COLUMN_WIDTH = 236;
@@ -25,6 +25,8 @@ const COLUMN_MARGIN = 10;
   styleUrls: ['./widget-panel.component.scss'],
 })
 export class WidgetPanelComponent implements OnInit, OnDestroy {
+  @ViewChild('gridsterItem', { static: true })
+  gridsterItem: GridsterItemComponentInterface;
   options: GridsterConfig = {};
   widgetItem: GridsterItem;
 
@@ -63,7 +65,9 @@ export class WidgetPanelComponent implements OnInit, OnDestroy {
 
     this.widgetItem = { x: 0, y: 0, rows: 1, cols: 1 };
 
-    this.resizeObserver = new ResizeObserver((entries) => this.updateGridster(entries));
+    this.resizeObserver = new ResizeObserver((entries) =>
+      this.updateGridster(entries)
+    );
 
     this.resizeObserver.observe(this.elRef.nativeElement);
   }
@@ -115,13 +119,15 @@ export class WidgetPanelComponent implements OnInit, OnDestroy {
    */
   moveWidgetItem(columnsCount: number) {
     if (columnsCount <= this.widgetItem.x && columnsCount !== 0) {
+      this.itemDragStart(this.widgetItem, this.gridsterItem);
       this.widgetItem.x = columnsCount - 1;
+      this.itemChange(this.widgetItem, this.gridsterItem);
     }
   }
 
   /**
    * set number of columns
-   * @param columnsCount 
+   * @param columnsCount
    */
   changeColumnsCount(columnsCount) {
     if (this.options) {
@@ -137,15 +143,15 @@ export class WidgetPanelComponent implements OnInit, OnDestroy {
    */
   updateGridster(entries: Array<ResizeObserverEntry>) {
     const entry = entries[0];
-      const containerWidth = entry.contentBoxSize
-        ? entry.contentBoxSize[0].inlineSize
-        : entry.contentRect.width;
+    const containerWidth = entry.contentBoxSize
+      ? entry.contentBoxSize[0].inlineSize
+      : entry.contentRect.width;
 
-      const columnWidth = COLUMN_WIDTH + COLUMN_MARGIN;
+    const columnWidth = COLUMN_WIDTH + COLUMN_MARGIN;
 
-      const columnsCount = Math.trunc(containerWidth / columnWidth);
+    const columnsCount = Math.trunc(containerWidth / columnWidth);
 
-      this.moveWidgetItem(columnsCount);
-      this.changeColumnsCount(columnsCount)
+    this.moveWidgetItem(columnsCount);
+    this.changeColumnsCount(columnsCount);
   }
 }
